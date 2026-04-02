@@ -116,7 +116,7 @@ export default function RegionalSalesChart({ data }: Props) {
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h2 className="text-lg font-semibold text-slate-900">Ventas por Jurisdicción</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Deflactadas por IPI — Cuadro 5 INDEC</p>
+          <p className="text-sm text-slate-500 mt-0.5">Autoservicios Mayoristas · Deflactadas por IPI — Cuadro 5 INDEC</p>
         </div>
         {viewMode !== 'variacion_relativa' && (
           <div className="flex bg-slate-100 rounded-lg p-1 gap-1 self-start shrink-0">

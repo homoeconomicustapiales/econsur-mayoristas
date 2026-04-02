@@ -88,7 +88,7 @@ export default function BocasOperacionesChart({ data }: Props) {
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h2 className="text-lg font-semibold text-slate-900">Bocas de Expendio y Operaciones</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Cantidad de locales, superficie y ticket promedio — Cuadro 6 INDEC</p>
+          <p className="text-sm text-slate-500 mt-0.5">Autoservicios Mayoristas · Cantidad de locales, superficie y ticket promedio — Cuadro 6 INDEC</p>
         </div>
         <div className="flex bg-slate-100 rounded-lg p-1 gap-1 self-start shrink-0">
           {(['linea', 'variacion'] as ViewMode[]).map(m => (
