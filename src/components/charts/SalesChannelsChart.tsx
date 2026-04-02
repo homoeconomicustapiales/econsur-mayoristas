@@ -21,8 +21,27 @@ const COLORS = ['#3b82f6', '#10b981'];
 const fmtFecha = (f: string) => { const [y, m] = f.split('-'); return `${m}/${y.slice(2)}`; };
 
 export default function SalesChannelsChart({ data }: Props) {
+  // Última fecha con al menos un valor no-nulo en alguna de las series del gráfico
+  const lastValidDate = useMemo(() => {
+    for (let i = data.length - 1; i >= 0; i--) {
+      if (KEYS.some(k => (data[i] as any)[k] != null)) {
+        return data[i].fecha;
+      }
+    }
+    return '2026-01-01';
+  }, [data]);
+
   const [varType,   setVarType]   = useState<VariationType>('interanual');
-  const [dateRange, setDateRange] = useState<DateRange>({ from: '2019-01-01', to: '2026-01-01' });
+  const [dateRange, setDateRange] = useState<DateRange>(() => {
+    let lastDate = '2026-01-01';
+    for (let i = data.length - 1; i >= 0; i--) {
+      if (KEYS.some(k => (data[i] as any)[k] != null)) {
+        lastDate = data[i].fecha;
+        break;
+      }
+    }
+    return { from: '2019-01-01', to: lastDate };
+  });
   const [activeKeys, setActiveKeys] = useState<Set<string>>(new Set(KEYS));
 
   const chartData = useMemo(() => {
@@ -110,7 +129,7 @@ export default function SalesChannelsChart({ data }: Props) {
         ))}
       </div>
 
-      <DatePicker value={dateRange} onChange={setDateRange} variant="light" />
+      <DatePicker value={dateRange} onChange={setDateRange} variant="light" maxDate={lastValidDate} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
         {comparison.map(row => (
