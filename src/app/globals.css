@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Custom scrollbar ───────────────────────────────── */
+:root {
+  --font-inter: 'Inter', sans-serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+*::-webkit-scrollbar         { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track   { background: transparent; }
+*::-webkit-scrollbar-thumb   { background: #334155; border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* ── Recharts overrides ─────────────────────────────── */
+.recharts-default-legend { padding-top: 8px !important; }
+.recharts-legend-item    { margin-right: 12px !important; }
+
+/* ── Month input ────────────────────────────────────── */
+input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
+
+/* ── Smooth scroll ──────────────────────────────────── */
+html { scroll-behavior: smooth; }
