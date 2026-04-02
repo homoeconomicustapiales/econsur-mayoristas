@@ -1,0 +1,47 @@
+name: Process Mayoristas Data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/raw/super_mayoristas.xlsx'
+  workflow_dispatch:          # permite ejecución manual desde GitHub UI
+
+jobs:
+  process-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ETL processor
+        run: python scripts/processor.py
+
+      - name: Commit updated JSONs
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/mayoristas_final.json data/mayoristas_real.json
+          git diff --staged --quiet \
+            && echo "No changes to commit" \
+            || git commit -m "chore: update data JSONs — $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
+          git push
+          
